@@ -1,7 +1,6 @@
 {
   "name": "challanger-bot",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon src"
@@ -13,7 +12,8 @@
     "cron": "^1.8.2",
     "dotenv": "^8.2.0",
     "lowdb": "^1.0.0",
-    "telegraf": "^3.38.0"
+    "telegraf": "^3.38.0",
+    "telegraf-command-parts": "^1.0.3"
   },
   "devDependencies": {
     "eslint": "^7.3.0"
