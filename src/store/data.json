@@ -1,14 +1,29 @@
 {
   "quizzes": [
     {
-      "description": "Hdhfud",
-      "title": "Dydhdhhdd",
+      "description": "Bgshshdd",
+      "title": "Shddhdhed",
       "options": [
-        "Dhsydhdd",
-        "Hdfhfud"
+        "Hshfhddd",
+        "Fhdhffjd"
       ],
       "answerIndex": 1
     }
   ],
-  "groups": []
+  "groups": [
+    {
+      "id": -421323023,
+      "title": "Normies",
+      "type": "group",
+      "all_members_are_administrators": false,
+      "quizTime": {
+        "mins": "30",
+        "hour": "3",
+        "days": [
+          "tue",
+          "thu"
+        ]
+      }
+    }
+  ]
 }

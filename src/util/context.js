@@ -13,8 +13,10 @@ class Context extends Telegraf.Context {
 
     return Boolean(type.match(/group/));
   }
-  clearSession() {
-    this.session = {};
+
+  clearQuizSession() {
+    delete this.session.currentQuiz
+    delete this.session.action 
   }
 }
 module.exports = Context;

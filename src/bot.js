@@ -1,19 +1,20 @@
 const Telegraf = require("telegraf");
 const session = require("telegraf/session");
 const { Context } = require("./util");
+const commandParts = require("telegraf-command-parts");
 const events = require("./handlers/events");
 const commands = require("./handlers/commands");
-const commandParts = require("telegraf-command-parts");
+const { scheduledQuizShare } = require("./handlers/middlewares");
+
+const initSession = { jobs: [] };
 
 function createBot({ token }) {
   const bot = new Telegraf(token, { contextType: Context });
 
-  //TODO add bot.use for send quiz and others
-  bot.use(session());
+  bot.use(session(initSession));
   bot.use(commandParts());
 
-  bot.start((ctx) => ctx.reply("Welcome"));
-
+  bot.use(scheduledQuizShare);
   bot.use(commands);
   bot.use(events);
 

@@ -1,4 +1,4 @@
-//the actions orders matter
+//NOTE the actions orders matter
 const defaultTitle = "whats the output of this code";
 const { actions } = require("../../util");
 
@@ -73,7 +73,7 @@ const getCorrectAnswer = async (ctx) => {
 
   await ctx.db.get("quizzes").push(ctx.session.currentQuiz).write();
 
-  ctx.clearSession();
+  ctx.clearQuizSession();
 
   return ctx.reply("ok done \n your quiz have been stored");
 };
