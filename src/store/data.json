@@ -3,27 +3,9 @@
     {
       "description": "Bgshshdd",
       "title": "Shddhdhed",
-      "options": [
-        "Hshfhddd",
-        "Fhdhffjd"
-      ],
+      "options": ["Hshfhddd", "Fhdhffjd"],
       "answerIndex": 1
     }
   ],
-  "groups": [
-    {
-      "id": -421323023,
-      "title": "Normies",
-      "type": "group",
-      "all_members_are_administrators": false,
-      "quizTime": {
-        "mins": "30",
-        "hour": "3",
-        "days": [
-          "tue",
-          "thu"
-        ]
-      }
-    }
-  ]
+  "groups": []
 }

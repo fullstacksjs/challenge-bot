@@ -1,3 +1,4 @@
-const toInteger = require('./toInteger');
+const toInteger = require("./toInteger");
+const createCronJob = require("./createCronJob");
 
-module.exports= {toInteger}
+module.exports = { toInteger, createCronJob };

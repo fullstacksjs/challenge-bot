@@ -7,9 +7,7 @@ class Context extends Telegraf.Context {
     this.db = store;
   }
   get isGroup() {
-    console.log(this.db.has);
     const { type = "private" } = this.chat;
-    console.log(type);
 
     return Boolean(type.match(/group/));
   }
