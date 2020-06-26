@@ -1,19 +1,18 @@
-const Telegraf = require("telegraf");
-const session = require("telegraf/session");
-const { Context } = require("./util");
-const commandParts = require("telegraf-command-parts");
-const events = require("./handlers/events");
-const commands = require("./handlers/commands");
-
-const initSession = { jobs: {} };
+const Telegraf = require('telegraf');
+const session = require('telegraf/session');
+const { Context } = require('./util');
+const commandParts = require('telegraf-command-parts');
+const events = require('./handlers/events');
+const commands = require('./handlers/commands');
 
 function createBot({ token }) {
   const bot = new Telegraf(token, { contextType: Context });
-  
-  bot.use(session(initSession));
+
+  bot.use(session());
   bot.use(commandParts());
   bot.use(commands);
   bot.use(events);
+  bot.catch((err) => console.error(err));
 
   return bot;
 }

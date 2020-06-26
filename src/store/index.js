@@ -1,2 +1,2 @@
-const db = require("./store");
+const db = require('./store');
 module.exports = db;
