@@ -1,7 +1,8 @@
-// const handler = (ctx) => {
-//   const leftGroup = ctx.chat;
-//   ctx.db.get("groups").remove({ id: leftGroup.id }).write();
-//   console.log(ctx.db.get("groups").find({ id: leftGroup.id }).value());
-// };
+const handler = (ctx) => {
+  const { id } = ctx.chat;
+  const job = ctx.session.jobs[id];
+  job.stop();
+  delete ctx.session.jobs[id];
+};
 
-// module.exports = handler;
+module.exports = handler;

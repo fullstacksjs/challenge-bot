@@ -1,5 +1,4 @@
-const {createCronJob} = require("../../util/functions");
-const groupOnlyHanlder = require("./groupOnly.handler");
-const createOrUpateHandler = require("./createOrUpdateJob.handler");
+const adminOnly = require('./adminOnly.handler');
+const setupScheduledQuiz = require('./setupScheduledQuiz.handler');
 
-module.exports = { createCronJob, groupOnlyHanlder, createOrUpateHandler };
+module.exports = { adminOnly, setupScheduledQuiz };

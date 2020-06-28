@@ -1,15 +1,15 @@
 //NOTE the actions orders matter
-const defaultTitle = "whats the output of this code";
-const { actions } = require("../../util");
+const defaultTitle = 'whats the output of this code';
+const { actions } = require('../../util');
 
-const getdescription = (ctx) => {
+const getContent = (ctx) => {
   const { text } = ctx.message;
 
-  ctx.session.currentQuiz.description = text;
+  ctx.session.currentQuiz.content = text;
   ctx.session.action = actions.title;
 
   return ctx.reply(
-    "ok send me the title\n" +
+    'ok send me the title\n' +
       `note: usually you would write somthing like '${defaultTitle}'\n` +
       "write 'skip' to write the default title"
   );
@@ -17,37 +17,35 @@ const getdescription = (ctx) => {
 
 const getTitle = (ctx) => {
   let { text } = ctx.message;
-  if (text === "skip") {
+  if (text === 'skip') {
     text = defaultTitle;
   }
   ctx.session.currentQuiz.title = text;
   ctx.session.action = actions.options;
   return ctx.reply(
-    "ok send me the options separated with new lines\n" +
-      "example:\n\n" +
-      "option-1\n" +
-      "option-2\n" +
-      "option-3"
+    'ok send me the options separated with new lines\n' +
+      'example:\n\n' +
+      'option-1\n' +
+      'option-2\n' +
+      'option-3'
   );
 };
 
 const getOptions = (ctx) => {
   const { text } = ctx.message;
 
-  const options = text.split("\n");
+  const options = text.split('\n');
   if (options.length < 2) {
-    return ctx.reply(
-      "there should be at least 2 options\n" + "try sending the options again"
-    );
+    return ctx.reply('there should be at least 2 options\n' + 'try sending the options again');
   }
-  console.log("oh no");
+  console.log('oh no');
 
   ctx.session.currentQuiz.options = options;
   ctx.session.action = actions.correctAnswer;
 
   return ctx.reply(
-    "perfect, now send me the correct answer\n" +
-      "you can send the correct one by\n\n" +
+    'perfect, now send me the correct answer\n' +
+      'you can send the correct one by\n\n' +
       "1. sending the answer's text\n" +
       "2. sending the correct one's index"
   );
@@ -56,26 +54,24 @@ const getOptions = (ctx) => {
 const getCorrectAnswer = async (ctx) => {
   const { text } = ctx.message;
   let answer = Number.parseInt(text);
-  const { description } = ctx.session.currentQuiz;
+  const { content } = ctx.session.currentQuiz;
   if (isNaN(answer)) {
-    answer = description.indexOf(answer);
+    answer = content.indexOf(answer);
   } else {
     answer--;
   }
 
-  if (answer === -1 || answer > description.length) {
-    return ctx.reply(
-      "index or text was not in the options\n" + "try sending it again"
-    );
+  if (answer === -1 || answer > content.length) {
+    return ctx.reply('index or text was not in the options\n' + 'try sending it again');
   }
 
   ctx.session.currentQuiz.answerIndex = answer;
 
-  await ctx.db.get("quizzes").push(ctx.session.currentQuiz).write();
+  await ctx.db.get('quizzes').push(ctx.session.currentQuiz).write();
 
   ctx.clearQuizSession();
 
-  return ctx.reply("ok done \n your quiz have been stored");
+  return ctx.reply('ok done \n your quiz have been stored');
 };
 
 const handler = async (ctx) => {
@@ -84,8 +80,8 @@ const handler = async (ctx) => {
   const { action } = ctx.session;
 
   switch (action) {
-    case actions.description:
-      getdescription(ctx);
+    case actions.content:
+      getContent(ctx);
       break;
 
     case actions.title:
