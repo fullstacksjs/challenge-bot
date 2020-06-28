@@ -61,7 +61,11 @@ const getCorrectAnswer = async (ctx) => {
     answer--;
   }
 
+<<<<<<< HEAD
   if (answer === -1 || answer > content.length) {
+=======
+  if (answer === -1 || answer > description.length) {
+>>>>>>> 7b246ba98baaa72a664cd00426722c8d9867c91e
     return ctx.reply('index or text was not in the options\n' + 'try sending it again');
   }
 

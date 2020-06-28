@@ -2,7 +2,11 @@ const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 const path = require('path');
 
+<<<<<<< HEAD
 const adapter = new FileSync(path.join(__dirname, 'store.json'));
+=======
+const adapter = new FileSync(path.join(__dirname, 'data.json'));
+>>>>>>> 7b246ba98baaa72a664cd00426722c8d9867c91e
 const db = low(adapter);
 const defaultData = { quizzes: [] };
 const dbValue = db.value();
