@@ -8,7 +8,7 @@ const handler = (ctx) => {
   if (id in ctx.session.jobs) {
     ctx.session.jobs[id].stop();
   }
-  const callback = sendQuizHof(id, ctx);
+  const callback = sendQuizHof(ctx);
   const job = createCronJob(quizTime, callback); //NOTE this function also runs the job
   Object.assign(ctx.session.jobs, { [id]: job });
 };

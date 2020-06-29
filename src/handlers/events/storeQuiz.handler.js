@@ -2,27 +2,32 @@
 const defaultTitle = "whats the output of this code";
 const { actions, contentTypes } = require("../../constants");
 
-const getContent = ({ message: { photo, text, video }, ...ctx }) => {
-  let content = text;
-  let contnetType = contentTypes.text;
+const getContent = (ctx) => {
+  const {
+    message: { photo, text, video },
+  } = ctx;
+  let contentValue = text;
+  let contentType = contentTypes.text;
 
   if (photo) {
     const { file_id } = photo[photo.length - 1];
-    content = file_id;
-    contnetType = contentTypes.photo;
+    contentValue = file_id;
+    contentType = contentTypes.photo;
   } else if (video) {
     const { file_id } = video;
-    content = file_id;
-    contnetType = contentTypes.video;
+    contentValue = file_id;
+    contentType = contentTypes.video;
   }
 
-  if (!content) {
+  if (!contentValue) {
     return ctx.reply(
       "wrong format you can only send photo video or text\n" + "try sending it again"
     );
   }
 
-  ctx.session.currentQuiz.content = { content, contnetType };
+  ctx.session.currentQuiz.content = { value: contentValue, type: contentType };
+  console.log(ctx.session);
+
   ctx.session.action = actions.title;
 
   return ctx.reply(
@@ -85,6 +90,7 @@ const getCorrectAnswer = async (ctx) => {
   ctx.session.currentQuiz.answerIndex = answer;
 
   await ctx.db.get("quizzes").push(ctx.session.currentQuiz).write();
+  console.log("cleared");
 
   ctx.clearQuizSession();
 
@@ -95,8 +101,6 @@ const handler = async (ctx) => {
   // console.log("text", action);
   // console.log(ctx.message.photo.file_id);
   // const { file_id } = await ctx.message.photo;
-  console.log(ctx.message.video);
-
   // console.log(await ctx.telegram.getFile(ctx.message.photo.file_id));
 
   const { action } = ctx.session;

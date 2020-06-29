@@ -1,6 +1,6 @@
 const { CronJob } = require("cron");
 
-//NOTE if you want to test write "* */1 * * * *" as the pattern
+//NOTE if you want to test write "0 */1 * * * *" as the pattern
 //this will trigger the callback each minute
 
 const timeZone = "Asia/Tehran";
