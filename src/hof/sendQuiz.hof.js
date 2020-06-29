@@ -1,6 +1,6 @@
 const hof = (groupID, ctx) => async () => {
   try {
-    const quiz = await ctx.db.get('quizzes').shift();
+    const quiz = await ctx.db.get("quizzes").shift();
 
     //TODO make code pic using `quiz.content`
 

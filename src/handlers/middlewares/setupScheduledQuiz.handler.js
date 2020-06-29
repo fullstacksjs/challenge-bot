@@ -1,5 +1,5 @@
-const { sendQuizHof } = require('../../hof');
-const { createCronJob } = require('../../util/functions');
+const { sendQuizHof } = require("../../hof");
+const { createCronJob } = require("../../auxiliary");
 
 const handler = (ctx) => {
   const { id, quizTime } = ctx.chat;

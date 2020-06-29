@@ -1,3 +1,3 @@
-const sendQuizHof = require('./sendQuiz.hof');
+const sendQuizHof = require("./sendQuiz.hof");
 
 module.exports = { sendQuizHof };
