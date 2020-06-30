@@ -1,4 +1,5 @@
 const actions = require("./actions");
 const contentTypes = require("./contentTypes");
 const daysFormats = require("./daysFormats");
-module.exports = { actions, contentTypes, daysFormats };
+const defaultDate = require("./defaultDate");
+module.exports = { actions, contentTypes, daysFormats, defaultDate };

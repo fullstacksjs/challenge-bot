@@ -3,7 +3,7 @@ const handler = async (ctx, next) => {
     return ctx.reply("this action must be done from a group chat");
   }
   if (!(await ctx.isAdmin)) {
-    return ctx.reply("only admins are allowed to do this action");
+    return ctx.reply("administratory required for this action");
   }
   return next();
 };

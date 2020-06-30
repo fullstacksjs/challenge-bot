@@ -6,7 +6,7 @@ const getContent = (ctx) => {
   const {
     message: { photo, text, video },
   } = ctx;
-  let contentValue = text;
+  let contentValue = "```" + text + "```";
   let contentType = contentTypes.text;
 
   if (photo) {
@@ -76,14 +76,14 @@ const getOptions = (ctx) => {
 const getCorrectAnswer = async (ctx) => {
   const { text } = ctx.message;
   let answer = Number.parseInt(text);
-  const { content } = ctx.session.currentQuiz;
+  const { value: contentValue } = ctx.session.currentQuiz.content;
   if (isNaN(answer)) {
-    answer = content.indexOf(answer);
+    answer = contentValue.indexOf(answer);
   } else {
     answer--;
   }
 
-  if (answer === -1 || answer > content.length) {
+  if (answer === -1 || answer > contentValue.length) {
     return ctx.reply("index or text was not in the options\n" + "try sending it again");
   }
 
