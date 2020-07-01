@@ -1,4 +1,4 @@
 const adminOnly = require("./adminOnly.handler");
-const setupScheduledQuiz = require("./setupScheduledQuiz.handler");
+const setupSchedule = require("./setupSchedule.handler");
 
-module.exports = { adminOnly, setupScheduledQuiz };
+module.exports = { adminOnly, setupSchedule };

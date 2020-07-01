@@ -1,13 +1,23 @@
 const { toInteger } = require("../../auxiliary");
-const { daysFormats } = require("../../constants");
+const { daysFormats, scheduleHofsNames } = require("../../constants");
+const splitOnFirstWhitespaceRegex = / (.*)/;
 // example args :
 // const args = "5:30 1,3";
 
 const handler = (ctx, next) => {
   const { args } = ctx.state.command;
-  const [rawTime, rawDays] = args.split(" ");
+  let [scheduleName, dateArg] = args.split(splitOnFirstWhitespaceRegex);
 
+  if (!(scheduleName in scheduleHofsNames) || !dateArg) {
+    return ctx.reply(
+      "what are scheduling for? and when?\n" +
+        "\\schdule <schduleFor> <hour>:<minutes> <day>,<day>..."
+    );
+  }
+
+  const [rawTime, rawDays] = dateArg.split(" ");
   const [hour, min] = rawTime.split(":").map(toInteger);
+
   if ([hour, min].some(isNaN)) {
     return ctx.reply("given hour/minute is not a number");
   }
@@ -23,8 +33,10 @@ const handler = (ctx, next) => {
   const days = daysIndex.map((dayIndex) => {
     return daysFormats[dayIndex - 1];
   });
-  const quizTime = { hour, min, days };
-  ctx.chat.quizTime = quizTime;
+  const date = { hour, min, days };
+
+  ctx.state.date = date;
+  ctx.state.scheduleName = scheduleName;
   return next();
 };
 

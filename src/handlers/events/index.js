@@ -7,5 +7,7 @@ const bot = new Composer();
 
 bot.start(startHanlder, setupScheduledQuiz);
 bot.on(["text", "video", "photo"], storeQuizHandler);
-
+bot.on(["poll_answer"], (ctx) => {
+  console.log(ctx.pollAnswer, ctx.poll);
+});
 module.exports = bot;
