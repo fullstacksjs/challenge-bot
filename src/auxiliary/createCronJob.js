@@ -6,8 +6,8 @@ const { CronJob } = require("cron");
 const timeZone = "Asia/Tehran";
 
 function createCronJob(patternObj, callback) {
-  const { min, hour, days } = patternObj;
-  const pattern = `00 ${min} ${hour} * * ${days.join(",")}`;
+  const { min = "0", hour = "0", daysOfWeek = ["1"], daysOfMonth = ["*"] } = patternObj;
+  const pattern = `00 ${min} ${hour} ${daysOfMonth.join(",")} * ${daysOfWeek.join(",")}`;
   const job = new CronJob(pattern, callback, null, false, timeZone);
   job.start();
   return job;

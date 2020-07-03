@@ -2,8 +2,8 @@ const { contentTypes } = require("../constants");
 
 const hof = (ctx) => async () => {
   try {
-    const quiz = await ctx.db.get("quizzes").shift();
-    //NOTE if u want to test replace shift with .value()[0];
+    const quiz = await ctx.db.get("quizzes").shift().value();
+    //NOTE if u want to test remove .shift() and add [0] at the end of value();
     if (!quiz) {
       ctx.reply(
         "hmmm..it seems that the quiz list is empty\n" +
@@ -20,10 +20,11 @@ const hof = (ctx) => async () => {
     } else {
       replyData = await ctx.reply(quiz.content.value, { parse_mode: "MarkdownV2" });
     }
-    await ctx.replyWithQuiz(quiz.title, quiz.options, {
+    const { poll } = await ctx.replyWithQuiz(quiz.title, quiz.options, {
       correct_option_id: quiz.answerIndex,
       reply_to_message_id: replyData.message_id,
     });
+    ctx.session.prevPoll = poll;
   } catch (err) {
     console.error(err);
   }

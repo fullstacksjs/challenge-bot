@@ -4,7 +4,7 @@ const path = require("path");
 
 const adapter = new FileSync(path.join(__dirname, "store.json"));
 const db = low(adapter);
-const defaultData = { quizzes: [] };
+const defaultData = { quizzes: [], sendQuizzes: {} };
 const dbValue = db.value();
 
 // Set some defaults,

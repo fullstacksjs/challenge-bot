@@ -7,11 +7,12 @@ const splitOnFirstWhitespaceRegex = / (.*)/;
 const handler = (ctx, next) => {
   const { args } = ctx.state.command;
   let [scheduleName, dateArg] = args.split(splitOnFirstWhitespaceRegex);
+  const date = {};
 
   if (!(scheduleName in scheduleHofsNames) || !dateArg) {
     return ctx.reply(
       "what are scheduling for? and when?\n" +
-        "\\schdule <schduleFor> <hour>:<minutes> <day>,<day>..."
+        "\\schdule <schduleFor> <hour>:<minutes> w<day-of-week>,w<day-of-week>..| <day-of-month>,..."
     );
   }
 
@@ -26,17 +27,28 @@ const handler = (ctx, next) => {
   }
 
   const daysIndex = rawDays.split(",").map(toInteger);
-  const validDays = daysIndex.every((day) => day >= 1 && day <= 7);
-  if (!validDays) {
-    return "given days are not right";
-  }
-  const days = daysIndex.map((dayIndex) => {
-    return daysFormats[dayIndex - 1];
-  });
-  const date = { hour, min, days };
 
-  ctx.state.date = date;
-  ctx.state.scheduleName = scheduleName;
+  const areWeekDays = daysIndex.every((day) => day.match(/^w/));
+  if (areWeekDays) {
+    const validWeekDays = daysIndex.every((day) => day >= 1 && day <= 7);
+    if (!validWeekDays) {
+      return ctx.reply("given daysOfWeek are not right");
+    }
+    const daysOfWeek = daysIndex.map((dayIndex) => {
+      return daysFormats[dayIndex - 1];
+    });
+    Object.assign(date, { daysOfWeek });
+  } else {
+    const validMonthDays = daysIndex.every((day) => day >= 1 && day <= 30);
+    if (!validMonthDays) {
+      return ctx.reply("given MonthDays are not right");
+    }
+    const daysOfMonth = daysIndex;
+    Object.assign(date, { daysOfMonth });
+  }
+
+  ctx.state.date = [date];
+  ctx.state.scheduleName = [scheduleName];
   return next();
 };
 

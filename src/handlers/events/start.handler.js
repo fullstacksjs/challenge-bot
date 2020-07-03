@@ -1,4 +1,5 @@
-const { defaultDate } = require("../../constants");
+const { defaultDates } = require("../../constants");
+const { scheduleHofsNames } = require("../../constants");
 
 const handler = (ctx, next) => {
   const { id } = ctx.chat;
@@ -6,7 +7,8 @@ const handler = (ctx, next) => {
 
   if (ctx.isGroup && !(id in jobs)) {
     ctx.reply("I'm redy");
-    ctx.chat.quizTime = defaultDate;
+    ctx.state.date = Object.values(defaultDates);
+    ctx.state.scheduleName = Object.keys(scheduleHofsNames);
     return next();
   }
 
