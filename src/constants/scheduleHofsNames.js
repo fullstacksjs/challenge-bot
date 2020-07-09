@@ -1,4 +1,4 @@
-const { sendLeaderboardHof, sendQuizHof } = require("../hof");
+const { sendLeaderboardHof, sendQuizHof } = require('../hof');
 
 const scheduleHofsNames = {
   leaderboard: sendLeaderboardHof,

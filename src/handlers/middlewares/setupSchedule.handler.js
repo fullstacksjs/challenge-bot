@@ -1,7 +1,7 @@
-const { createCronJob } = require("../../auxiliary");
-const { scheduleHofsNames } = require("../../constants");
+const { createCronJob } = require('../../auxiliary');
+const { scheduleHofsNames } = require('../../constants');
 
-const handler = (ctx) => {
+const handler = ctx => {
   const { id } = ctx.chat;
   const { scheduleNames, dates } = ctx.state;
   ctx.session.jobs = ctx.session.jobs || {};
@@ -12,7 +12,7 @@ const handler = (ctx) => {
     }
     const hof = scheduleHofsNames[scheduleName];
     const callback = hof(ctx);
-    const job = createCronJob(date, callback); //NOTE this function also runs the job
+    const job = createCronJob(date, callback); // NOTE this function also runs the job
     Object.assign(ctx.session.jobs[id], { [scheduleName]: job });
   });
 };

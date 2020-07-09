@@ -1,4 +1,4 @@
-const handler = (ctx) => {
+const handler = ctx => {
   const { prevPoll } = ctx.session;
 
   if (prevPoll) {
@@ -8,9 +8,9 @@ const handler = (ctx) => {
     } = ctx.answer_poll;
     const [userAnswerIndex] = option_ids;
     const { correct_option_id: answerIndex, id } = prevPoll;
-    const userState = ctx.db.get(["leaderboard", id, username], null);
+    const userState = ctx.db.get(['leaderboard', id, username], null);
     if (!userState) {
-      ctx.db.get("leaderboard").update((lb) => {
+      ctx.db.get('leaderboard').update(lb => {
         if (!lb[id]) {
           lb[id] = {};
         }
@@ -18,9 +18,9 @@ const handler = (ctx) => {
         return lb;
       });
     }
-    const anwersState = answerIndex === userAnswerIndex ? "rights" : "wrongs";
+    const anwersState = answerIndex === userAnswerIndex ? 'rights' : 'wrongs';
 
-    userState.update(anwersState, (r) => r + 1).write();
+    userState.update(anwersState, r => r + 1).write();
   }
 };
 module.exports = handler;

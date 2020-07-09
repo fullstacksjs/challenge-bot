@@ -1,12 +1,12 @@
-//NOTE the actions orders matter
-const defaultTitle = "whats the output of this code";
-const { actions, contentTypes } = require("../../constants");
+// NOTE the actions orders matter
+const defaultTitle = 'whats the output of this code';
+const { actions, contentTypes } = require('../../constants');
 
-const getContent = (ctx) => {
+const getContent = ctx => {
   const {
     message: { photo, text, video },
   } = ctx;
-  let contentValue = "```" + text + "```";
+  let contentValue = `\`\`\`${text}\`\`\``;
   let contentType = contentTypes.text;
 
   if (photo) {
@@ -20,9 +20,7 @@ const getContent = (ctx) => {
   }
 
   if (!contentValue) {
-    return ctx.reply(
-      "wrong format you can only send photo video or text\n" + "try sending it again"
-    );
+    return ctx.reply('wrong format you can only send photo video or text\n' + 'try sending it again');
   }
 
   ctx.session.currentQuiz.content = { value: contentValue, type: contentType };
@@ -31,49 +29,45 @@ const getContent = (ctx) => {
   ctx.session.action = actions.title;
 
   return ctx.reply(
-    "ok send me the title\n" +
+    'ok send me the title\n' +
       `note: usually you would write somthing like '${defaultTitle}'\n` +
-      "write 'skip' to write the default title"
+      "write 'skip' to write the default title",
   );
 };
 
-const getTitle = (ctx) => {
+const getTitle = ctx => {
   let { text } = ctx.message;
-  if (text === "skip") {
+  if (text === 'skip') {
     text = defaultTitle;
   }
   ctx.session.currentQuiz.title = text;
   ctx.session.action = actions.options;
   return ctx.reply(
-    "ok send me the options separated with new lines\n" +
-      "example:\n\n" +
-      "option-1\n" +
-      "option-2\n" +
-      "option-3"
+    'ok send me the options separated with new lines\n' + 'example:\n\n' + 'option-1\n' + 'option-2\n' + 'option-3',
   );
 };
 
-const getOptions = (ctx) => {
+const getOptions = ctx => {
   const { text } = ctx.message;
 
-  const options = text.split("\n");
+  const options = text.split('\n');
   if (options.length < 2) {
-    return ctx.reply("there should be at least 2 options\n" + "try sending the options again");
+    return ctx.reply('there should be at least 2 options\n' + 'try sending the options again');
   }
-  console.log("oh no");
+  console.log('oh no');
 
   ctx.session.currentQuiz.options = options;
   ctx.session.action = actions.correctAnswer;
 
   return ctx.reply(
-    "perfect, now send me the correct answer\n" +
-      "you can send the correct one by\n\n" +
+    'perfect, now send me the correct answer\n' +
+      'you can send the correct one by\n\n' +
       "1. sending the answer's text\n" +
-      "2. sending the correct one's index"
+      "2. sending the correct one's index",
   );
 };
 
-const getCorrectAnswer = async (ctx) => {
+const getCorrectAnswer = async ctx => {
   const { text } = ctx.message;
   let answer = Number.parseInt(text);
   const { value: contentValue } = ctx.session.currentQuiz.content;
@@ -84,20 +78,20 @@ const getCorrectAnswer = async (ctx) => {
   }
 
   if (answer === -1 || answer > contentValue.length) {
-    return ctx.reply("index or text was not in the options\n" + "try sending it again");
+    return ctx.reply('index or text was not in the options\n' + 'try sending it again');
   }
 
   ctx.session.currentQuiz.answerIndex = answer;
 
-  await ctx.db.get("quizzes").push(ctx.session.currentQuiz).write();
-  console.log("cleared");
+  await ctx.db.get('quizzes').push(ctx.session.currentQuiz).write();
+  console.log('cleared');
 
   ctx.clearQuizSession();
 
-  return ctx.reply("ok done \n your quiz have been stored");
+  return ctx.reply('ok done \n your quiz have been stored');
 };
 
-const handler = async (ctx) => {
+const handler = async ctx => {
   // console.log("text", action);
   // console.log(ctx.message.photo.file_id);
   // const { file_id } = await ctx.message.photo;

@@ -4,22 +4,37 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src",
-    "fix": "prettier --write . && eslint --fix"
+    "fix": "eslint --fix ./src",
+    "commit": "git-cz"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cron": "^1.8.2",
-    "dotenv": "^8.2.0",
-    "lowdb": "^1.0.0",
-    "telegraf": "^3.38.0",
-    "telegraf-command-parts": "^1.0.3"
+    "cron": "1.8.2",
+    "dotenv": "8.2.0",
+    "lowdb": "1.0.0",
+    "telegraf": "3.38.0",
+    "telegraf-command-parts": "1.0.3"
   },
   "devDependencies": {
-    "eslint": "^7.3.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.0.5"
+    "@commitlint/cli": "9.0.1",
+    "@commitlint/config-conventional": "9.0.1",
+    "@frontendmonster/eslint-config": "4.0.3",
+    "commitizen": "4.1.2",
+    "cz-conventional-changelog": "3.2.0",
+    "husky": "4.2.5",
+    "eslint": "7.4.0",
+    "prettier": "2.0.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
