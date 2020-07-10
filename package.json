@@ -29,6 +29,7 @@
   "dependencies": {
     "cron": "1.8.2",
     "dotenv": "8.2.0",
+    "lint-staged": "^10.2.11",
     "lowdb": "1.0.0",
     "telegraf": "3.38.0",
     "telegraf-command-parts": "1.0.3"
@@ -50,7 +51,8 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
     }
   }
 }
