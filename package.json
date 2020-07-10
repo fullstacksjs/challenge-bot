@@ -1,15 +1,31 @@
 {
   "name": "challanger-bot",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Telegram bot to create developer quizzes",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/full-stacks/challenge-bot"
+  },
+  "bugs": {
+    "url": "https://github.com/full-stacks/challenge-bot/issues"
+  },
+  "homepage": "https://github.com/full-stacks/challenge-bot/",
+  "keywords": [
+    "telegram",
+    "bot",
+    "fullstacks",
+    "quiz"
+  ],
   "scripts": {
     "start": "nodemon src",
     "fix": "eslint --fix ./src",
     "commit": "git-cz"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "contributors": [
+    "frontendmonster <frontendmonster@gmail.com>"
+  ],
+  "license": "AGPL-3.0",
   "dependencies": {
     "cron": "1.8.2",
     "dotenv": "8.2.0",
