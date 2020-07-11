@@ -1,3 +1,6 @@
-const db = require('./store');
+const path = require('path');
+const initDb = require('./initDb');
 
-module.exports = db;
+const store = initDb(path.join(__dirname, 'store.json'));
+
+module.exports = store;
