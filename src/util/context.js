@@ -8,11 +8,12 @@ class Context extends Telegraf.Context {
   }
   get isGroup() {
     const { type = "private" } = this.chat;
-
+    console.log(type);
     return Boolean(type.match(/group/));
   }
   //NOTE function below is asynchronous
   //meaning that it returns a promise
+
   get isAdmin() {
     const { telegram, message } = this;
 
@@ -21,10 +22,8 @@ class Context extends Telegraf.Context {
         .getChatMember(message.chat.id, message.from.id)
         .catch(console.error);
 
-      if (member && (member.status === "creator" || member.status === "administrator")) {
-        return true;
-      }
-      return false;
+      const isCreatorOrAdmin = member.status === "creator" || member.status === "administrator";
+      return member && isCreatorOrAdmin;
 
       //or just
       // return (
@@ -34,8 +33,8 @@ class Context extends Telegraf.Context {
     })();
   }
   clearQuizSession() {
-    delete this.session.currentQuiz;
-    delete this.session.action;
+    Reflect.deleteProperty(this.session, "currentQuiz");
+    Reflect.deleteProperty(this.session, "action");
   }
 }
 module.exports = Context;

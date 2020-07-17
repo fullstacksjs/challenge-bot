@@ -1,4 +1,4 @@
-const { createCronJob } = require("../../auxiliary");
+const { createCronJob } = require("../../util");
 const { scheduleHofsNames } = require("../../constants");
 
 const handler = (ctx) => {

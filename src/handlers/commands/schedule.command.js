@@ -1,4 +1,4 @@
-const { toInteger } = require("../../auxiliary");
+const { toInteger } = require("../../util");
 const { daysFormats, scheduleHofsNames } = require("../../constants");
 const splitOnFirstWhitespaceRegex = / (.*)/;
 // example args :

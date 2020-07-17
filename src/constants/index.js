@@ -3,5 +3,13 @@ const contentTypes = require("./contentTypes");
 const daysFormats = require("./daysFormats");
 const defaultDates = require("./defaultDates");
 const scheduleHofsNames = require("./scheduleHofsNames");
+const defaultTitle = require("./defaultTitle");
 
-module.exports = { actions, contentTypes, daysFormats, defaultDates, scheduleHofsNames };
+module.exports = {
+  actions,
+  defaultTitle,
+  contentTypes,
+  daysFormats,
+  defaultDates,
+  scheduleHofsNames,
+};

@@ -1,11 +1,11 @@
-//NOTE the actions orders matter
-const defaultTitle = "whats the output of this code";
-const { actions, contentTypes } = require("../../constants");
+const { actions, contentTypes, defaultTitle } = require("../../constants");
+const { toInteger } = require("../../util");
 
 const getContent = (ctx) => {
-  const {
-    message: { photo, text, video },
-  } = ctx;
+  const { session } = ctx;
+  const { photo, text, video } = ctx.message;
+
+  // as default we assume that the type is text
   let contentValue = "```" + text + "```";
   let contentType = contentTypes.text;
 
@@ -25,10 +25,8 @@ const getContent = (ctx) => {
     );
   }
 
-  ctx.session.currentQuiz.content = { value: contentValue, type: contentType };
-  console.log(ctx.session);
-
-  ctx.session.action = actions.title;
+  session.currentQuiz.content = { value: contentValue, type: contentType };
+  session.action = actions.title;
 
   return ctx.reply(
     "ok send me the title\n" +
@@ -38,12 +36,13 @@ const getContent = (ctx) => {
 };
 
 const getTitle = (ctx) => {
+  const { session } = ctx;
   let { text } = ctx.message;
   if (text === "skip") {
     text = defaultTitle;
   }
-  ctx.session.currentQuiz.title = text;
-  ctx.session.action = actions.options;
+  session.currentQuiz.title = text;
+  session.action = actions.options;
   return ctx.reply(
     "ok send me the options separated with new lines\n" +
       "example:\n\n" +
@@ -54,6 +53,7 @@ const getTitle = (ctx) => {
 };
 
 const getOptions = (ctx) => {
+  const { session } = ctx;
   const { text } = ctx.message;
 
   const options = text.split("\n");
@@ -62,8 +62,8 @@ const getOptions = (ctx) => {
   }
   console.log("oh no");
 
-  ctx.session.currentQuiz.options = options;
-  ctx.session.action = actions.correctAnswer;
+  session.currentQuiz.options = options;
+  session.action = actions.correctAnswer;
 
   return ctx.reply(
     "perfect, now send me the correct answer\n" +
@@ -74,9 +74,11 @@ const getOptions = (ctx) => {
 };
 
 const getCorrectAnswer = async (ctx) => {
+  const { session } = ctx;
   const { text } = ctx.message;
-  let answer = Number.parseInt(text);
-  const { value: contentValue } = ctx.session.currentQuiz.content;
+
+  let answer = toInteger(text);
+  const { value: contentValue } = session.currentQuiz.content;
   if (isNaN(answer)) {
     answer = contentValue.indexOf(answer);
   } else {
@@ -87,22 +89,15 @@ const getCorrectAnswer = async (ctx) => {
     return ctx.reply("index or text was not in the options\n" + "try sending it again");
   }
 
-  ctx.session.currentQuiz.answerIndex = answer;
+  session.currentQuiz.answerIndex = answer;
 
-  await ctx.db.get("quizzes").push(ctx.session.currentQuiz).write();
-  console.log("cleared");
-
+  await ctx.db.get("quizzes").push(session.currentQuiz).write();
   ctx.clearQuizSession();
 
   return ctx.reply("ok done \n your quiz have been stored");
 };
 
 const handler = async (ctx) => {
-  // console.log("text", action);
-  // console.log(ctx.message.photo.file_id);
-  // const { file_id } = await ctx.message.photo;
-  // console.log(await ctx.telegram.getFile(ctx.message.photo.file_id));
-
   const { action } = ctx.session;
 
   switch (action) {
